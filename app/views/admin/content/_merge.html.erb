@@ -1,0 +1,19 @@
+<div class='content'>  
+       <h4>Merge Articles</h4>
+
+<%= form_tag '/admin/content/merge_articles' do %>
+
+    <div >
+        <label for="user_login">Article ID</label>
+        <div class='input'>
+                <%= text_field_tag(:merge_with_id, nil, {:class => 'span5', :name=>'merge_with'}) %>
+        </div>
+        <div class='input'>
+                <%= hidden_field_tag(:orig_article_id, @article.id) %>
+        </div>
+        <%= submit_tag("Merge") %>
+   </div>
+
+<% end %>
+
+</div>
