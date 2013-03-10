@@ -41,12 +41,77 @@ Given /^the blog is set up$/ do
                 :profile_id => 1,
                 :name => 'admin',
                 :state => 'active'})
+
+  User.create!({:login => 'editor',
+                :password => 'bbbbbbbb',
+                :email => 'mark@twain.org',
+                :profile_id => 2,
+                :name => 'editor',
+                :state => 'active'})
+
+  Article.create(:allow_comments => true, 
+                :allow_pings => true, 
+                :author => "Mr Typo",
+                :body => "Welcome to Typo. This is your first article. Edit or delete it, then start blogging!",
+                :guid => "1bf3e2ca-ed7b-4562-8a4a-8ce8438822c8",
+                :id => 1,
+                :permalink => "hello-world",
+                :post_type => "read",
+                :published => true,
+                :published_at => "2012-06-09 21:51:55 UTC",
+                :settings => {"password"=>nil},
+                :state => "published",
+                :text_filter_id => 5,
+                :title => "Hello World!",
+                :type => "Article",
+                :user_id => 1)
+
+  Article.create(:allow_comments => true, 
+                :allow_pings => true, 
+                :author => "Mr Typo",
+                :body => "This is your SECOND article. In the time of chimpanzees, I was a monkey!",
+                :guid => "2bf3e2ca-ed7b-4562-8a4a-8ce8438811d7",
+                :id => 2,
+                :permalink => "second-article",
+                :post_type => "read",
+                :published => true,
+                :published_at => "2012-07-17 21:51:55 UTC",
+                :settings => {"password"=>nil},
+                :state => "published",
+                :text_filter_id => 5,
+                :title => "Second Article",
+                :type => "Article",
+                :user_id => 1)
 end
 
 And /^I am logged into the admin panel$/ do
   visit '/accounts/login'
   fill_in 'user_login', :with => 'admin'
   fill_in 'user_password', :with => 'aaaaaaaa'
+  click_button 'Login'
+  if page.respond_to? :should
+    page.should have_content('Login successful')
+  else
+    assert page.has_content?('Login successful')
+  end
+end
+
+Given /^I am logged into the admin panel as admin$/ do
+  visit '/accounts/login'
+  fill_in 'user_login', :with => 'admin'
+  fill_in 'user_password', :with => 'aaaaaaaa'
+  click_button 'Login'
+  if page.respond_to? :should
+    page.should have_content('Login successful')
+  else
+    assert page.has_content?('Login successful')
+  end
+end
+
+Given /^I am logged into the admin panel as editor$/ do
+  visit '/accounts/login'
+  fill_in 'user_login', :with => 'editor'
+  fill_in 'user_password', :with => 'bbbbbbbb'
   click_button 'Login'
   if page.respond_to? :should
     page.should have_content('Login successful')

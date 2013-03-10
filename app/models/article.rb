@@ -80,6 +80,22 @@ class Article < Content
     Article.exists?({:parent_id => self.id})
   end
 
+  def merge_with (merge_id)
+    merge_article = Article.find(merge_id)
+    merged_body = self.body + "\r\n" + merge_article.body
+    self.update_attributes(:body => merged_body)
+    logger.warn "SELF BODY: " + self.body
+
+    for c in merge_article.comments do
+        c.article_id = self.id
+        c.save!
+    end
+
+    merge_article.reload
+    self.reload
+    merge_article.delete
+  end
+
   attr_accessor :draft, :keywords
 
   has_state(:state,
