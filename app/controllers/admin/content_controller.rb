@@ -8,6 +8,12 @@ class Admin::ContentController < Admin::BaseController
 
 
   def merge_articles
+
+     unless current_user.admin?
+       flash[:error] = _("Error, you are not allowed to perform this action")
+       return(redirect_to :action => 'index')
+     end
+
      logger.warn "PARAMS: "
      logger.warn params
      orig_article = Article.find(params[:orig_article_id])
