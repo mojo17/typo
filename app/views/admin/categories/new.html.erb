@@ -3,7 +3,7 @@
 
 <div class='left_form'>
 <%= error_messages_for 'category' %>
-<%= if @category.id then form_action = {:action => "edit", :id => @category.id} else form_action = {:action => "new"} end %>
+<%= if @category.id then form_action = {:action => "edit", :id => @category.id} else form_action = {:action => "edit"} end %>
   <%= form_tag form_action do   %>
   <%= error_messages_for 'category' %>
   <div class='clearfix'>
